@@ -1,16 +1,21 @@
 <script setup lang="ts">
-import { useThemeStore } from "../store/theme";
+import Menu from "../components/menu.vue";
+// import { useThemeStore } from "../store/theme";
 
-const themeStore = useThemeStore();
+// const themeStore = useThemeStore();
 </script>
 
 <template>
   <div class="home">
-    <div class="home-content">
-      <n-switch :value="themeStore.dark" @update:value="themeStore.setDark">
-        暗黑模式
-      </n-switch>
-    </div>
+    <n-split
+      direction="horizontal"
+      style="height: 100vh"
+      :default-size="0.2"
+      :max="0.25"
+      :min="0.04">
+      <template #1> <Menu /> </template>
+      <template #2> Pannel2 </template>
+    </n-split>
   </div>
 </template>
 
