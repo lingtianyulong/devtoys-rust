@@ -14,7 +14,11 @@ import Menu from "../components/menu.vue";
       :max="0.25"
       :min="0.04">
       <template #1> <Menu /> </template>
-      <template #2> Pannel2 </template>
+      <template #2>
+        <n-layout-content>
+          <router-view />
+        </n-layout-content>
+      </template>
     </n-split>
   </div>
 </template>

@@ -11,6 +11,7 @@ import { MenuOption, NIcon, NMenu } from "naive-ui";
 import type { Component } from "vue";
 import IconFont from "./iconfont.vue";
 import PluginLineIcon from "@iconify-vue/clarity/plugin-line";
+import router from "../router";
 
 const collapsed = ref(false);
 
@@ -52,6 +53,10 @@ function renderIcon(icon: Component) {
 
 function renderIconFont(name: string) {
   return () => h(IconFont, { name });
+}
+
+function handleSetting() {
+  router.push({ name: "setting" });
 }
 </script>
 
@@ -96,7 +101,7 @@ function renderIconFont(name: string) {
       </n-scrollbar>
     </div>
     <div class="menu_footer">
-      <n-button text type="default" size="medium">
+      <n-button text type="default" size="medium" @click="handleSetting">
         <template #icon>
           <SettingOutlined />
         </template>
