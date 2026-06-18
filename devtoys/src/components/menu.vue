@@ -13,7 +13,7 @@ import IconFont from "./iconfont.vue";
 import PluginLineIcon from "@iconify-vue/clarity/plugin-line";
 import router from "../router";
 
-const collapsed = ref(false);
+const collapsed = defineModel<boolean>("collapsed", { default: false });
 
 const activeKey = ref<string | null>(null);
 
@@ -58,6 +58,16 @@ function renderIconFont(name: string) {
 function handleSetting() {
   router.push({ name: "setting" });
 }
+
+function handleClickSearch() {
+  console.log("handleClickSearch");
+  collapsed.value = false;
+  console.log("collapsed", collapsed.value);
+}
+
+function handleCollapse() {
+  collapsed.value = !collapsed.value;
+}
 </script>
 
 <template>
@@ -70,7 +80,7 @@ function handleSetting() {
         size="large"
         type="default"
         :bordered="false"
-        @click="collapsed = !collapsed">
+        @click="handleCollapse">
         <template #icon>
           <n-icon v-if="collapsed">
             <MenuUnfoldOutlined />
@@ -82,13 +92,35 @@ function handleSetting() {
       </n-button>
     </div>
     <div class="menu_search">
-      <n-input placeholder="输入以搜索工具" size="medium" type="text" clearable>
-        <template #suffix>
-          <n-icon>
-            <Search />
-          </n-icon>
-        </template>
-      </n-input>
+      <div v-if="!collapsed" style="width: 100%">
+        <n-input
+          placeholder="输入以搜索工具"
+          size="medium"
+          type="text"
+          clearable>
+          <template #suffix>
+            <n-icon>
+              <Search />
+            </n-icon>
+          </template>
+        </n-input>
+      </div>
+      <div v-else>
+        <n-tooltip>
+          <template #trigger>
+            <n-button
+              text
+              type="default"
+              size="medium"
+              @click="handleClickSearch">
+              <template #icon>
+                <Search />
+              </template>
+            </n-button>
+          </template>
+          <span>输入以搜索工具</span>
+        </n-tooltip>
+      </div>
     </div>
     <div class="menu_content">
       <n-scrollbar>
@@ -105,13 +137,13 @@ function handleSetting() {
         <template #icon>
           <SettingOutlined />
         </template>
-        设置
+        <span v-if="!collapsed">设置</span>
       </n-button>
       <n-button text type="default" size="medium">
         <template #icon>
           <PluginLineIcon />
         </template>
-        管理扩展
+        <span v-if="!collapsed">管理扩展</span>
       </n-button>
     </div>
   </div>
