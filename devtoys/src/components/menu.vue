@@ -12,6 +12,7 @@ import type { Component } from "vue";
 import IconFont from "./iconfont.vue";
 import PluginLineIcon from "@iconify-vue/clarity/plugin-line";
 import router from "../router";
+import { RouterLink } from "vue-router";
 
 const collapsed = defineModel<boolean>("collapsed", { default: false });
 
@@ -34,7 +35,18 @@ const menuOptions = ref<MenuOption[]>([
         icon: renderIcon(Password24Regular),
       },
       {
-        label: "UUID",
+        label: () =>
+          h(
+            RouterLink,
+            {
+              to: {
+                path: "/tools/uuid",
+              },
+            },
+            {
+              default: () => "UUID",
+            },
+          ),
         key: "uuid-generator",
         icon: renderIconFont("uuID"),
       },
@@ -57,6 +69,10 @@ function renderIconFont(name: string) {
 
 function handleSetting() {
   router.push({ name: "setting" });
+}
+
+function handleOpenPlugin() {
+  router.push({ name: "empty" });
 }
 
 function handleClickSearch() {
@@ -133,17 +149,17 @@ function handleCollapse() {
       </n-scrollbar>
     </div>
     <div class="menu_footer">
-      <n-button text type="default" size="medium" @click="handleSetting">
+      <n-button text type="default" size="large" @click="handleSetting">
         <template #icon>
           <SettingOutlined />
         </template>
         <span v-if="!collapsed">设置</span>
       </n-button>
-      <n-button text type="default" size="medium">
+      <n-button text type="default" size="large" @click="handleOpenPlugin">
         <template #icon>
           <PluginLineIcon />
         </template>
-        <span v-if="!collapsed">管理扩展</span>
+        <span v-if="!collapsed">扩展管理</span>
       </n-button>
     </div>
   </div>

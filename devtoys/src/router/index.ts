@@ -17,6 +17,16 @@ const router = createRouter({
           name: "setting",
           component: () => import("../pages/setting.vue"),
         },
+        {
+          path: "/empty",
+          name: "empty",
+          component: () => import("../pages/empty.vue"),
+        },
+        {
+          path: "/tools/uuid",
+          name: "tools-uuid",
+          component: () => import("../pages/tools/uuid.vue"),
+        },
       ],
     },
   ],
