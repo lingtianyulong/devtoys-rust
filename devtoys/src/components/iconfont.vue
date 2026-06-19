@@ -11,7 +11,7 @@ const props = defineProps({
   <svg
     class="icon"
     aria-hidden="true"
-    style="width: 1em; height: 1em; fill: currentColor">
+    style="width: 2em; height: 2em; fill: currentColor">
     <use :xlink:href="`#icon-${name}`"></use>
   </svg>
 </template>

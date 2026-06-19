@@ -1,10 +1,10 @@
 <!--
- * @Author: lizhijun lizhijun@tsign.cn
+ * @Author: huzhiqiang
  * @Date: 2026-06-18 14:49:55
- * @LastEditors: lizhijun lizhijun@tsign.cn
+ * @LastEditors: huzhiqiang
  * @LastEditTime: 2026-06-18 14:50:31
  * @FilePath: \devtoys\src\components\settingitem.vue
- * @Description: 用于封装设置项的组件, 主要在设置页面中使用
+ * @Description: A component for setting, including the system settings of this software and the parameters settings of tools in this software.
 -->
 
 <script lang="ts" setup>
@@ -49,6 +49,12 @@ const props = defineProps<{
             <span>{{ props.switchUncheckedContent }}</span>
           </template>
         </n-switch>
+        <n-input-number
+          class="win-spin"
+          v-if="props.type === 'number'"
+          clearable
+          :min="1"
+          :max="100" />
       </div>
     </div>
   </n-card>
@@ -96,4 +102,5 @@ const props = defineProps<{
   justify-content: flex-end;
   align-items: center;
 }
+
 </style>
