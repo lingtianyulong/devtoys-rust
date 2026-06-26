@@ -17,7 +17,7 @@ const { dark } = storeToRefs(themeStore);
 
 type SettingItem = {
   key: string;
-  icon: Object;
+  icon: Component;
   title: string;
   description: string;
   type?: "select" | "switch" | string;

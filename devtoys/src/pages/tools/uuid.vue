@@ -23,7 +23,7 @@ import {
 
 type SettingItem = {
   key: string;
-  icon: Object;
+  icon: Component;
   title: string;
   description: string;
   type?: "select" | "switch" | string;
@@ -117,6 +117,10 @@ function handleSwitchChange(item: SettingItem, value: boolean) {
     uppercase.value = value;
   }
 }
+
+function handleNumberChange(value: number) {
+  console.log(value);
+}
 </script>
 
 <template>
@@ -141,7 +145,8 @@ function handleSwitchChange(item: SettingItem, value: boolean) {
         "
         :switchCheckedContent="item.switchCheckedContent"
         :switchUncheckedContent="item.switchUncheckedContent"
-        :onSwitchChange="(value) => handleSwitchChange(item, value)" />
+        :onSwitchChange="(value) => handleSwitchChange(item, value)"
+        :onNumberChange="(value) => handleNumberChange(value)" />
     </n-space>
   </n-card>
 </template>

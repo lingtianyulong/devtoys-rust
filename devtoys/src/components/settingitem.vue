@@ -9,9 +9,11 @@
 
 <script lang="ts" setup>
 import type { SelectOption } from "naive-ui";
+import type { Component } from "vue";
+import { ref } from "vue";
 
 const props = defineProps<{
-  icon: Object;
+  icon: Component;
   title: string;
   description: string;
   type?: string;
@@ -20,7 +22,10 @@ const props = defineProps<{
   switchUncheckedContent?: string;
   switchValue?: boolean;
   onSwitchChange?: (value: boolean) => void;
+  onNumberChange?: (value: number) => void;
 }>();
+
+const uuidCount = ref(1);
 </script>
 
 <template>
@@ -50,11 +55,14 @@ const props = defineProps<{
           </template>
         </n-switch>
         <n-input-number
+          v-model:value="uuidCount"
           class="win-spin"
           v-if="props.type === 'number'"
           clearable
           :min="1"
-          :max="100" />
+          :max="100"
+          placeholder="请输入生成数量"
+          @update:value="props.onNumberChange" />
       </div>
     </div>
   </n-card>
@@ -102,5 +110,4 @@ const props = defineProps<{
   justify-content: flex-end;
   align-items: center;
 }
-
 </style>

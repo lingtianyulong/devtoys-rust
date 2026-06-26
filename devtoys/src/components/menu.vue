@@ -92,7 +92,6 @@ function handleCollapse() {
     <div class="menu_header">
       <n-button
         text
-        secondary
         size="large"
         type="default"
         :bordered="false"
