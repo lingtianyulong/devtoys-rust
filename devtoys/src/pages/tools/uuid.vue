@@ -21,6 +21,9 @@ import {
   BookInformation24Regular,
 } from "@vicons/fluent";
 
+import { Refresh } from "@vicons/ionicons5";
+import { ContentCopyRound } from "@vicons/material";
+
 type SettingItem = {
   key: string;
   icon: Component;
@@ -148,6 +151,22 @@ function handleNumberChange(value: number) {
         :onSwitchChange="(value) => handleSwitchChange(item, value)"
         :onNumberChange="(value) => handleNumberChange(value)" />
     </n-space>
+
+    <n-flex justify="space-between" align="center" style="margin-top: 20px">
+      <div>UUID(s)</div>
+      <div>
+        <n-button style="margin-right: 10px">
+          <template #icon>
+            <n-icon>
+              <Refresh />
+            </n-icon>
+          </template>
+          刷新
+        </n-button>
+        <n-button style="margin-right: 10px">复制</n-button>
+        <n-button style="margin-right: 10px">保存</n-button>
+      </div>
+    </n-flex>
   </n-card>
 </template>
 
