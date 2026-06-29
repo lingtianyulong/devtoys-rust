@@ -9,12 +9,9 @@
 
 <script lang="ts" setup>
 import SettingItem from "../../components/settingitem.vue";
-import type { SelectOption } from "naive-ui";
-import type { Component } from "vue";
-import { NIcon } from "naive-ui";
-import { h } from "vue";
+import { NIcon, type SelectOption } from "naive-ui";
+import { h, ref, type Component } from "vue";
 import { BorderlessTableOutlined } from "@vicons/antd";
-import { ref } from "vue";
 import IconFont from "../../components/iconfont.vue";
 import {
   TextCaseUppercase24Regular,
@@ -23,6 +20,7 @@ import {
 
 import { Refresh } from "@vicons/ionicons5";
 import { ContentCopyRound } from "@vicons/material";
+import { Save20Regular } from "@vicons/fluent";
 
 type SettingItem = {
   key: string;
@@ -121,8 +119,12 @@ function handleSwitchChange(item: SettingItem, value: boolean) {
   }
 }
 
-function handleNumberChange(value: number) {
+function handleNumberChange(value: number | null) {
   console.log(value);
+}
+
+function createSwitchHandler(item: SettingItem) {
+  return (value: boolean) => handleSwitchChange(item, value);
 }
 </script>
 
@@ -148,8 +150,8 @@ function handleNumberChange(value: number) {
         "
         :switchCheckedContent="item.switchCheckedContent"
         :switchUncheckedContent="item.switchUncheckedContent"
-        :onSwitchChange="(value) => handleSwitchChange(item, value)"
-        :onNumberChange="(value) => handleNumberChange(value)" />
+        :onSwitchChange="createSwitchHandler(item)"
+        :onNumberChange="handleNumberChange" />
     </n-space>
 
     <n-flex justify="space-between" align="center" style="margin-top: 20px">
@@ -163,10 +165,27 @@ function handleNumberChange(value: number) {
           </template>
           刷新
         </n-button>
-        <n-button style="margin-right: 10px">复制</n-button>
-        <n-button style="margin-right: 10px">保存</n-button>
+        <n-button style="margin-right: 10px">
+          <template #icon>
+            <n-icon>
+              <ContentCopyRound />
+            </n-icon>
+          </template>
+          复制
+        </n-button>
+        <n-button>
+          <template #icon>
+            <n-icon>
+              <Save20Regular />
+            </n-icon>
+          </template>
+          保存
+        </n-button>
       </div>
     </n-flex>
+    <div style="margin-top: 20px">
+      <n-input type="textarea" :rows="15" :resizable="false" />
+    </div>
   </n-card>
 </template>
 

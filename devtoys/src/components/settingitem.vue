@@ -22,7 +22,7 @@ const props = defineProps<{
   switchUncheckedContent?: string;
   switchValue?: boolean;
   onSwitchChange?: (value: boolean) => void;
-  onNumberChange?: (value: number) => void;
+  onNumberChange?: (value: number | null) => void;
 }>();
 
 const uuidCount = ref(1);
