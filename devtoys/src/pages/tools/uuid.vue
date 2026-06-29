@@ -184,7 +184,7 @@ function createSwitchHandler(item: SettingItem) {
       </div>
     </n-flex>
     <div style="margin-top: 20px">
-      <n-input type="textarea" :rows="15" :resizable="false" />
+      <n-input type="textarea" :rows="15" readonly :resizable="false" />
     </div>
   </n-card>
 </template>
