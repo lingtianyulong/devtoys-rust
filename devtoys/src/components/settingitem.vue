@@ -12,15 +12,19 @@ import type { SelectOption } from "naive-ui";
 import type { Component } from "vue";
 import { ref } from "vue";
 
+type SettingSelectValue = string | number | null;
+
 const props = defineProps<{
   icon: Component;
   title: string;
   description: string;
   type?: string;
   options?: SelectOption[];
+  selectValue?: SettingSelectValue;
   switchCheckedContent?: string;
   switchUncheckedContent?: string;
   switchValue?: boolean;
+  onSelectChange?: (value: SettingSelectValue) => void;
   onSwitchChange?: (value: boolean) => void;
   onNumberChange?: (value: number | null) => void;
 }>();
@@ -42,7 +46,9 @@ const uuidCount = ref(1);
         <n-select
           v-if="props.type === 'select'"
           :options="props.options"
-          placeholder="请选择" />
+          :value="props.selectValue"
+          placeholder="请选择"
+          @update:value="props.onSelectChange" />
         <n-switch
           v-if="props.type === 'switch'"
           :value="props.switchValue"

@@ -12,6 +12,12 @@
     "core:window:allow-maximize",
     "core:window:allow-close",
     "opener:default",
-    "log:default"
+    "log:default",
+    "clipboard-manager:default",
+    "clipboard-manager:allow-read-text",
+    "clipboard-manager:allow-write-text",
+    "dialog:default",
+    "fs:default",
+    "fs:allow-app-write"
   ]
 }
