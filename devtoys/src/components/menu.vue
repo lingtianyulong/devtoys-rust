@@ -4,8 +4,8 @@ import {
   MenuUnfoldOutlined,
   SettingOutlined,
 } from "@vicons/antd";
-import { Search, HomeOutline, FingerPrint } from "@vicons/ionicons5";
-import { Engine24Regular, Password24Regular } from "@vicons/fluent";
+import { Search, HomeOutline, EyeSharp } from "@vicons/ionicons5";
+import { Engine24Regular, Camera24Regular } from "@vicons/fluent";
 import { h, ref } from "vue";
 import { MenuOption, NIcon, NMenu } from "naive-ui";
 import type { Component } from "vue";
@@ -30,11 +30,6 @@ const menuOptions = ref<MenuOption[]>([
     icon: renderIcon(Engine24Regular),
     children: [
       {
-        label: "密码",
-        key: "password-generator",
-        icon: renderIcon(Password24Regular),
-      },
-      {
         label: () =>
           h(
             RouterLink,
@@ -50,10 +45,28 @@ const menuOptions = ref<MenuOption[]>([
         key: "uuid-generator",
         icon: renderIconFont("uuID"),
       },
+    ],
+  },
+  {
+    label: "机器视觉",
+    key: "machine-vision",
+    icon: renderIcon(EyeSharp),
+    children: [
       {
-        label: "哈希/校验和",
-        key: "hash-checksum-generator",
-        icon: renderIcon(FingerPrint),
+        label: () =>
+          h(
+            RouterLink,
+            {
+              to: {
+                path: "/tools/camera-selection",
+              },
+            },
+            {
+              default: () => "相机选型",
+            },
+          ),
+        key: "camera-selection",
+        icon: renderIcon(Camera24Regular),
       },
     ],
   },

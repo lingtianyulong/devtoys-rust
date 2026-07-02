@@ -27,6 +27,11 @@ const router = createRouter({
           name: "tools-uuid",
           component: () => import("../pages/tools/uuid.vue"),
         },
+        {
+          path: "/tools/camera-selection",
+          name: "tools-camera-selection",
+          component: () => import("../pages/tools/camera-selection.vue"),
+        },
       ],
     },
   ],
