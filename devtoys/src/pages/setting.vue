@@ -1,15 +1,11 @@
 <script lang="ts" setup>
-import SettingItem from "../components/settingitem.vue";
-import type { Component } from "vue";
 import { ElCard, ElIcon, ElSpace } from "element-plus";
-import { h } from "vue";
+
 import { Language } from "@vicons/ionicons5";
-import {
-  ColorPaletteOutline,
-  InformationCircleOutline,
-} from "@vicons/ionicons5";
+import { ColorPaletteOutline } from "@vicons/ionicons5";
 import { storeToRefs } from "pinia";
 import { useThemeStore } from "../store/theme";
+import { InfoFilled } from "@element-plus/icons-vue";
 
 const themeStore = useThemeStore();
 const { dark } = storeToRefs(themeStore);
@@ -19,68 +15,19 @@ type SelectOption = {
   value: string | number;
 };
 
-type SettingItem = {
-  key: string;
-  icon: Component;
-  title: string;
-  description: string;
-  type?: "select" | "switch" | string;
-  options?: SelectOption[];
-  switchCheckedContent?: string;
-  switchUncheckedContent?: string;
-  onSwitchChange?: (value: boolean) => void;
-};
-
-function renderIcon(icon: Component) {
-  return () => h(ElIcon, { size: 24 }, { default: () => h(icon) });
-}
-
-const appearanceItems: SettingItem[] = [
+const languageOptions: SelectOption[] = [
   {
-    key: "language",
-    icon: renderIcon(Language),
-    title: "界面语言",
-    description: "更改语言后, 需要重启应用才能生效.",
-    type: "select",
-    options: [
-      {
-        label: "中文(简体)",
-        value: "zh-CN",
-      },
-      {
-        label: "中文(繁体)",
-        value: "zh-TW",
-      },
-      {
-        label: "English",
-        value: "en-US",
-      },
-    ],
+    label: "中文(简体)",
+    value: "zh-CN",
   },
   {
-    key: "theme",
-    icon: renderIcon(ColorPaletteOutline),
-    title: "应用主题",
-    description: "选择要使用的主题.",
-    type: "switch",
-    switchCheckedContent: "深色",
-    switchUncheckedContent: "浅色",
+    label: "English",
+    value: "en-US",
   },
 ];
 
-const aboutItems: SettingItem[] = [
-  {
-    key: "version",
-    icon: renderIcon(InformationCircleOutline),
-    title: "DevToys Rust",
-    description: "当前版本 v0.1.0",
-  },
-];
-
-function handleSwitchChange(item: SettingItem, value: boolean) {
-  if (item.key === "theme") {
-    themeStore.setDark(value);
-  }
+function handleThemeChange(value: boolean) {
+  themeStore.setDark(value);
 }
 </script>
 
@@ -88,29 +35,56 @@ function handleSwitchChange(item: SettingItem, value: boolean) {
   <el-card class="main_card">
     <div class="title">设置</div>
     <div class="group_title">外观</div>
-    <el-space direction="vertical" :size="8" fill>
-      <SettingItem
-        v-for="item in appearanceItems"
-        :key="item.key"
-        :icon="item.icon"
-        :title="item.title"
-        :description="item.description"
-        :type="item.type"
-        :options="item.options"
-        :switchCheckedContent="item.switchCheckedContent"
-        :switchUncheckedContent="item.switchUncheckedContent"
-        :switchValue="item.key === 'theme' ? dark : undefined"
-        :onSwitchChange="(value) => handleSwitchChange(item, value)" />
+    <el-space direction="vertical" :size="8" fill style="width: 95%">
+      <el-card class="item_card">
+        <div class="left">
+          <el-icon :size="24">
+            <component :is="Language" />
+          </el-icon>
+        </div>
+        <div class="center">
+          <div class="title">界面语言</div>
+          <div class="description">更改语言后, 需要重启应用才能生效.</div>
+        </div>
+        <div class="right">
+          <el-select :options="languageOptions" />
+        </div>
+      </el-card>
+      <el-card class="item_card">
+        <div class="left">
+          <el-icon :size="24">
+            <component :is="ColorPaletteOutline" />
+          </el-icon>
+        </div>
+        <div class="center">
+          <div class="title">应用主题</div>
+          <div class="description">选择要使用的主题.</div>
+        </div>
+        <div class="right">
+          <el-switch
+            :model-value="dark"
+            :active-value="true"
+            :inactive-value="false"
+            active-text="深色"
+            inactive-text="浅色"
+            @update:model-value="handleThemeChange" />
+        </div>
+      </el-card>
     </el-space>
 
     <div class="group_title" style="margin-top: 20px">关于</div>
-    <el-space direction="vertical" :size="8" fill>
-      <SettingItem
-        v-for="item in aboutItems"
-        :key="item.key"
-        :icon="item.icon"
-        :title="item.title"
-        :description="item.description" />
+    <el-space direction="vertical" :size="8" fill style="width: 95%">
+      <el-card class="item_card">
+        <div class="left">
+          <el-icon :size="24">
+            <InfoFilled />
+          </el-icon>
+        </div>
+        <div class="center">
+          <div class="title">DevToys Rust</div>
+          <div class="description">当前版本 v0.1.0</div>
+        </div>
+      </el-card>
     </el-space>
   </el-card>
 </template>
@@ -125,13 +99,74 @@ function handleSwitchChange(item: SettingItem, value: boolean) {
   overflow: hidden;
 }
 
+.item_card {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: start;
+  padding: 10px;
+  width: 100%;
+  height: 100%;
+}
+
+.item_card :deep(.el-card__body) {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.settingitem_card {
+  border-radius: 5px;
+}
+
+.setting-row {
+  width: 100%;
+  flex-direction: row;
+  display: flex;
+  align-items: center;
+}
+
+.left {
+  width: 48px;
+  display: flex;
+  justify-content: start;
+  align-items: center;
+}
+
+.center {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.title {
+  font-size: 16px;
+  font-weight: bold;
+  color: var(--el-text-color-primary);
+}
+
+.description {
+  font-size: 14px;
+  color: var(--el-text-color-regular);
+}
+
+.right {
+  width: 180px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
 .title {
   width: 100%;
   font-size: 24px;
   font-weight: bold;
   text-align: center;
   margin-bottom: 20px;
-  color: #333;
+  color: var(--el-text-color-primary);
   display: flex;
   justify-content: start;
   align-items: center;
@@ -141,7 +176,7 @@ function handleSwitchChange(item: SettingItem, value: boolean) {
   font-size: 18px;
   text-align: center;
   margin-bottom: 10px;
-  color: #333;
+  color: var(--el-text-color-primary);
   display: flex;
   justify-content: start;
   align-items: center;

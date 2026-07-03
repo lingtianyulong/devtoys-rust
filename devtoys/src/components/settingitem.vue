@@ -24,16 +24,15 @@ const props = defineProps<{
   switchCheckedContent?: string;
   switchUncheckedContent?: string;
   switchValue?: boolean;
+  numberValue?: number | null;
   onSelectChange?: (value: SettingSelectValue) => void;
   onSwitchChange?: (value: boolean) => void;
   onNumberChange?: (value: number | null) => void;
 }>();
-
-const uuidCount = ref(1);
 </script>
 
 <template>
-  <n-card class="settingitem_card">
+  <el-card class="settingitem_card">
     <div class="setting-row">
       <div class="left">
         <component :is="props.icon" />
@@ -43,35 +42,37 @@ const uuidCount = ref(1);
         <div class="description">{{ props.description }}</div>
       </div>
       <div class="right">
-        <n-select
+        <el-select
           v-if="props.type === 'select'"
-          :options="props.options"
-          :value="props.selectValue"
-          placeholder="请选择"
-          @update:value="props.onSelectChange" />
-        <n-switch
+          :model-value="props.selectValue"
+          @change="props.onSelectChange">
+          <el-option
+            v-for="option in props.options"
+            :key="option.value"
+            :label="option.label"
+            :value="option.value" />
+        </el-select>
+        <el-switch
           v-if="props.type === 'switch'"
-          :value="props.switchValue"
-          @update:value="props.onSwitchChange">
-          <template #checked>
-            <span>{{ props.switchCheckedContent }}</span>
-          </template>
-          <template #unchecked>
-            <span>{{ props.switchUncheckedContent }}</span>
-          </template>
-        </n-switch>
-        <n-input-number
-          v-model:value="uuidCount"
-          class="win-spin"
+          v-model="props.switchValue"
+          @change="props.onSwitchChange"
+          :active-text="props.switchCheckedContent"
+          :inactive-text="props.switchUncheckedContent"
+          :active-value="true"
+          :inactive-value="false">
+        </el-switch>
+        <el-input-number
           v-if="props.type === 'number'"
+          v-model="props.numberValue"
+          controls-position="right"
           clearable
           :min="1"
           :max="100"
-          placeholder="请输入生成数量"
-          @update:value="props.onNumberChange" />
+          :step="1"
+          @change="props.onNumberChange" />
       </div>
     </div>
-  </n-card>
+  </el-card>
 </template>
 
 <style scoped>

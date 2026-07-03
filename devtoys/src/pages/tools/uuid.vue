@@ -162,6 +162,7 @@ function handleSwitchChange(item: SettingItem, value: boolean) {
 
 function handleNumberChange(value: number | null) {
   uuidParams.value.count = value ?? 1;
+  console.log("uuidParams.value.count", uuidParams.value.count);
   generateUUID();
 }
 
@@ -213,7 +214,7 @@ async function handleSave() {
   <el-card class="main_card">
     <div class="title">UUID 生成器</div>
     <div class="group_title">参数配置</div>
-    <el-space direction="vertical" :size="8" fill>
+    <el-space direction="vertical" :size="8" fill style="width: 95%">
       <SettingItem
         v-for="item in appearanceItems"
         :key="item.key"
@@ -230,6 +231,7 @@ async function handleSave() {
               : undefined
         "
         :selectValue="item.key === 'version' ? uuidParams.version : undefined"
+        :numberValue="item.key === 'gen_count' ? uuidParams.count : undefined"
         :switchCheckedContent="item.switchCheckedContent"
         :switchUncheckedContent="item.switchUncheckedContent"
         :onSelectChange="createSelectHandler(item)"
@@ -266,7 +268,7 @@ async function handleSave() {
         </el-button>
       </div>
     </div>
-    <div style="margin-top: 20px">
+    <div style="margin-top: 20px; width: 95%">
       <el-input
         v-model="uuidText"
         type="textarea"
@@ -315,5 +317,6 @@ async function handleSave() {
   align-items: center;
   justify-content: space-between;
   margin-top: 20px;
+  width: 95%;
 }
 </style>

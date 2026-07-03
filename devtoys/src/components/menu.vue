@@ -35,7 +35,7 @@ const menuOptions = ref<MenuItemOption[]>([
         label: "UUID",
         key: "uuid-generator",
         path: "/tools/uuid",
-        icon: renderIconFont("uuID"),
+        icon: renderIconFont("bd_uuid"),
       },
     ],
   },
@@ -55,7 +55,12 @@ const menuOptions = ref<MenuItemOption[]>([
 ]);
 
 function renderIcon(icon: Component) {
-  return () => h(ElIcon, null, { default: () => h(icon) });
+  return (props: { size?: number | string; class?: string }) =>
+    h(
+      ElIcon,
+      { size: props.size, class: props.class },
+      { default: () => h(icon) },
+    );
 }
 
 function renderIconFont(name: string) {
@@ -157,18 +162,23 @@ function handleMenuSelect(key: string) {
           :collapse="collapsed"
           :collapse-transition="false"
           :indent="20"
-          @select="handleMenuSelect">
+          @select="handleMenuSelect"
+          style="border: none">
           <template v-for="item in menuOptions" :key="item.key">
             <el-sub-menu v-if="item.children?.length" :index="item.key">
               <template #title>
-                <component v-if="item.icon" :is="item.icon" />
+                <component v-if="item.icon" :is="item.icon" :size="20" />
                 <span>{{ item.label }}</span>
               </template>
               <el-menu-item
                 v-for="child in item.children"
                 :key="child.key"
                 :index="child.key">
-                <component v-if="child.icon" :is="child.icon" />
+                <component
+                  v-if="child.icon"
+                  :is="child.icon"
+                  :size="20"
+                  style="margin-right: 10px" />
                 <span>{{ child.label }}</span>
               </el-menu-item>
             </el-sub-menu>
@@ -181,12 +191,12 @@ function handleMenuSelect(key: string) {
       </el-scrollbar>
     </div>
     <div class="menu_footer">
-      <el-button
-        :icon="Setting"
-        text
-        type="default"
-        size="large"
-        @click="handleSetting">
+      <el-button text type="default" size="large" @click="handleSetting">
+        <template #icon>
+          <el-icon :size="20">
+            <Setting />
+          </el-icon>
+        </template>
         <div v-if="!collapsed">设置</div>
       </el-button>
       <el-button text type="default" size="large" @click="handleOpenPlugin">
@@ -239,5 +249,11 @@ function handleMenuSelect(key: string) {
   justify-content: flex-start;
   width: 100%;
   margin-left: 0;
+}
+
+.menu_footer :deep(.setting-icon) {
+  width: 48px;
+  height: 48px;
+  font-size: 48px;
 }
 </style>

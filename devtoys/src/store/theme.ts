@@ -41,6 +41,7 @@ export const useThemeStore = defineStore("theme", () => {
     (value) => {
       localStorage.setItem(STORAGE_KEY, String(value));
       document.documentElement.dataset.theme = value ? "dark" : "light";
+      document.documentElement.classList.toggle("dark", value);
       syncWindowTheme(value);
     },
     { immediate: true },
