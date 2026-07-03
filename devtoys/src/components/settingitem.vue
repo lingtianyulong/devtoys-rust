@@ -10,7 +10,6 @@
 <script lang="ts" setup>
 import type { SelectOption } from "naive-ui";
 import type { Component } from "vue";
-import { ref } from "vue";
 
 type SettingSelectValue = string | number | null;
 
