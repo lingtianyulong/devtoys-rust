@@ -1,8 +1,7 @@
 <script lang="ts" setup>
 import SettingItem from "../components/settingitem.vue";
-import type { SelectOption } from "naive-ui";
 import type { Component } from "vue";
-import { NIcon } from "naive-ui";
+import { ElCard, ElIcon, ElSpace } from "element-plus";
 import { h } from "vue";
 import { Language } from "@vicons/ionicons5";
 import {
@@ -14,6 +13,11 @@ import { useThemeStore } from "../store/theme";
 
 const themeStore = useThemeStore();
 const { dark } = storeToRefs(themeStore);
+
+type SelectOption = {
+  label: string;
+  value: string | number;
+};
 
 type SettingItem = {
   key: string;
@@ -28,7 +32,7 @@ type SettingItem = {
 };
 
 function renderIcon(icon: Component) {
-  return () => h(NIcon, { size: 24 }, { default: () => h(icon) });
+  return () => h(ElIcon, { size: 24 }, { default: () => h(icon) });
 }
 
 const appearanceItems: SettingItem[] = [
@@ -81,10 +85,10 @@ function handleSwitchChange(item: SettingItem, value: boolean) {
 </script>
 
 <template>
-  <n-card class="main_card">
+  <el-card class="main_card">
     <div class="title">设置</div>
     <div class="group_title">外观</div>
-    <n-space vertical :size="8">
+    <el-space direction="vertical" :size="8" fill>
       <SettingItem
         v-for="item in appearanceItems"
         :key="item.key"
@@ -97,18 +101,18 @@ function handleSwitchChange(item: SettingItem, value: boolean) {
         :switchUncheckedContent="item.switchUncheckedContent"
         :switchValue="item.key === 'theme' ? dark : undefined"
         :onSwitchChange="(value) => handleSwitchChange(item, value)" />
-    </n-space>
+    </el-space>
 
     <div class="group_title" style="margin-top: 20px">关于</div>
-    <n-space vertical :size="8">
+    <el-space direction="vertical" :size="8" fill>
       <SettingItem
         v-for="item in aboutItems"
         :key="item.key"
         :icon="item.icon"
         :title="item.title"
         :description="item.description" />
-    </n-space>
-  </n-card>
+    </el-space>
+  </el-card>
 </template>
 
 <style scoped>

@@ -1,20 +1,12 @@
 <script lang="ts" setup>
-import IconFont from "../components/iconfont.vue";
-import { h } from "vue";
-
-const renderIcon = (name: string) => {
-  return () => h(IconFont, { name });
-};
+import { ElEmpty } from "element-plus";
 </script>
 <template>
-  <n-empty
+  <el-empty
     class="empty-page"
-    size="huge"
+    :image-size="80"
     description="功能暂未实现, 敬请期待...">
-    <template #icon>
-      <component :is="renderIcon('kongyemian')" />
-    </template>
-  </n-empty>
+  </el-empty>
 </template>
 
 <style scoped>
@@ -26,10 +18,12 @@ const renderIcon = (name: string) => {
   width: 100%;
 }
 
-.empty-page :deep(.n-empty__icon) {
+.empty-page :deep(.el-empty__image) {
   display: flex;
   justify-content: center;
   align-items: center;
+  width: 80px;
+  height: 80px;
 }
 
 .empty-page :deep(.icon) {

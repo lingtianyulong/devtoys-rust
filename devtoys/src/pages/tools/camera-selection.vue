@@ -1,4 +1,12 @@
 <script setup lang="ts">
+import {
+  ElButton,
+  ElCard,
+  ElForm,
+  ElFormItem,
+  ElInput,
+  ElSpace,
+} from "element-plus";
 import { ref } from "vue";
 
 // 分辨率
@@ -65,6 +73,26 @@ const onlyNumber = (value: string) => {
   return /^-?\d*\.?\d*$/.test(value);
 };
 
+const handleNumberKeydown = (event: Event) => {
+  if (!(event instanceof KeyboardEvent)) {
+    return;
+  }
+
+  if (event.ctrlKey || event.metaKey || event.altKey || event.key.length !== 1) {
+    return;
+  }
+
+  const input = event.target as HTMLInputElement;
+  const start = input.selectionStart ?? input.value.length;
+  const end = input.selectionEnd ?? input.value.length;
+  const nextValue =
+    input.value.slice(0, start) + event.key + input.value.slice(end);
+
+  if (!onlyNumber(nextValue)) {
+    event.preventDefault();
+  }
+};
+
 const formatTo4Decimals = (num: number) => {
   const str = num.toString();
   if (str.includes(".")) {
@@ -126,158 +154,158 @@ const calculateDepthOfField = () => {
 </script>
 
 <template>
-  <n-card class="main_card">
+  <el-card class="main_card">
     <div class="title">相机选型</div>
-    <n-space vertical :size="10">
-      <n-card title="计算靶面尺寸">
-        <n-form :model="sensorForm" :style="{ width: '100%' }">
-          <n-form-item label="分辨率(长边) x (短边) (pixel)">
-            <n-input
-              v-model:value="sensorForm.resolution.length"
+    <el-space direction="vertical" :size="10" fill>
+      <el-card header="计算靶面尺寸">
+        <el-form :model="sensorForm" :style="{ width: '100%' }">
+          <el-form-item label="分辨率(长边) x (短边) (pixel)">
+            <el-input
+              v-model="sensorForm.resolution.length"
               placeholder="请输入分辨率(长边)"
               style="width: 180px"
-              :allow-input="onlyNumber" />
+              @keydown="handleNumberKeydown" />
             <span style="margin: 0 10px">x</span>
-            <n-input
-              v-model:value="sensorForm.resolution.width"
+            <el-input
+              v-model="sensorForm.resolution.width"
               placeholder="请输入分辨率(短边)"
               style="width: 180px"
-              :allow-input="onlyNumber" />
-          </n-form-item>
-          <n-form-item label="靶面尺寸(长) x (宽) (μm)">
-            <n-input
-              v-model:value="sensorForm.sensorSize.length"
+              @keydown="handleNumberKeydown" />
+          </el-form-item>
+          <el-form-item label="靶面尺寸(长) x (宽) (μm)">
+            <el-input
+              v-model="sensorForm.sensorSize.length"
               placeholder="请输入靶面尺寸(长)"
               style="width: 180px"
-              :allow-input="onlyNumber" />
+              @keydown="handleNumberKeydown" />
             <span style="margin: 0 10px">x</span>
-            <n-input
-              v-model:value="sensorForm.sensorSize.width"
+            <el-input
+              v-model="sensorForm.sensorSize.width"
               placeholder="请输入靶面尺寸(宽)"
               style="width: 180px"
-              :allow-input="onlyNumber" />
-            <n-button
+              @keydown="handleNumberKeydown" />
+            <el-button
               type="primary"
               style="margin-left: 10px"
               @click="calculateSensorSize">
               计算
-            </n-button>
-          </n-form-item>
-          <n-form-item label="靶面尺寸(长) x (宽) (㎜)">
-            <n-input
+            </el-button>
+          </el-form-item>
+          <el-form-item label="靶面尺寸(长) x (宽) (㎜)">
+            <el-input
               readonly
               style="width: 180px"
               placeholder=""
-              v-model:value="sensorForm.targetSize.length" />
+              v-model="sensorForm.targetSize.length" />
             <span style="margin: 0 10px">x</span>
-            <n-input
+            <el-input
               readonly
               style="width: 180px"
               placeholder=""
-              v-model:value="sensorForm.targetSize.width" />
-          </n-form-item>
-        </n-form>
-      </n-card>
+              v-model="sensorForm.targetSize.width" />
+          </el-form-item>
+        </el-form>
+      </el-card>
 
-      <n-card class="content_card" title="计算 FOV">
-        <n-form :model="FovForm" inline :style="{ width: '100%' }">
-          <n-form-item label="工作距离(mm)">
-            <n-input
-              v-model:value="FovForm.distance"
+      <el-card class="content_card" header="计算 FOV">
+        <el-form :model="FovForm" inline :style="{ width: '100%' }">
+          <el-form-item label="工作距离(mm)">
+            <el-input
+              v-model="FovForm.distance"
               style="width: 180px"
               placeholder="输入相机的工作距离"
-              :allow-input="onlyNumber" />
-          </n-form-item>
-          <n-form-item label="靶面尺寸(mm)">
-            <n-input
-              v-model:value="FovForm.sensorSize.length"
+              @keydown="handleNumberKeydown" />
+          </el-form-item>
+          <el-form-item label="靶面尺寸(mm)">
+            <el-input
+              v-model="FovForm.sensorSize.length"
               style="width: 180px"
               placeholder="输入长边靶面尺寸"
-              :allow-input="onlyNumber" />
+              @keydown="handleNumberKeydown" />
             <span style="margin: 0 10px">x</span>
-            <n-input
-              v-model:value="FovForm.sensorSize.width"
+            <el-input
+              v-model="FovForm.sensorSize.width"
               style="width: 180px"
               placeholder="输入短边靶面尺寸"
-              :allow-input="onlyNumber" />
-          </n-form-item>
-          <n-form-item label="焦距(mm)">
-            <n-input
-              v-model:value="FovForm.focalLength"
+              @keydown="handleNumberKeydown" />
+          </el-form-item>
+          <el-form-item label="焦距(mm)">
+            <el-input
+              v-model="FovForm.focalLength"
               style="width: 180px"
               placeholder="输入焦距"
-              :allow-input="onlyNumber" />
-          </n-form-item>
-        </n-form>
-        <n-button type="primary" style="margin-top: 10px" @click="calculateFov">
+              @keydown="handleNumberKeydown" />
+          </el-form-item>
+        </el-form>
+        <el-button type="primary" style="margin-top: 10px" @click="calculateFov">
           计算
-        </n-button>
-        <n-form inline :style="{ width: '100%', marginTop: '20px' }">
-          <n-form-item label="长边视野(mm)">
-            <n-input
+        </el-button>
+        <el-form inline :style="{ width: '100%', marginTop: '20px' }">
+          <el-form-item label="长边视野(mm)">
+            <el-input
               readonly
               style="width: 180px"
               placeholder=""
-              v-model:value="FovForm.fov.length" />
-          </n-form-item>
-          <n-form-item label="短边视野(mm)">
-            <n-input
+              v-model="FovForm.fov.length" />
+          </el-form-item>
+          <el-form-item label="短边视野(mm)">
+            <el-input
               readonly
               style="width: 180px"
               placeholder=""
-              v-model:value="FovForm.fov.width" />
-          </n-form-item>
-        </n-form>
-      </n-card>
-      <n-card class="content_card" title="计算景深">
-        <n-form :model="DepthOfFieldForm" inline :style="{ width: '100%' }">
-          <n-form-item label="光圈值(f)">
-            <n-input
-              v-model:value="DepthOfFieldForm.fNumber"
+              v-model="FovForm.fov.width" />
+          </el-form-item>
+        </el-form>
+      </el-card>
+      <el-card class="content_card" header="计算景深">
+        <el-form :model="DepthOfFieldForm" inline :style="{ width: '100%' }">
+          <el-form-item label="光圈值(f)">
+            <el-input
+              v-model="DepthOfFieldForm.fNumber"
               style="width: 180px"
               placeholder="输入光圈值"
-              :allow-input="onlyNumber" />
-          </n-form-item>
-          <n-form-item label="弥散圆(μm)">
-            <n-input
-              v-model:value="DepthOfFieldForm.circleOfConfusion"
+              @keydown="handleNumberKeydown" />
+          </el-form-item>
+          <el-form-item label="弥散圆(μm)">
+            <el-input
+              v-model="DepthOfFieldForm.circleOfConfusion"
               style="width: 180px"
               placeholder="输入弥散圆"
-              :allow-input="onlyNumber" />
-          </n-form-item>
-          <n-form-item label="工作距离(mm)">
-            <n-input
-              v-model:value="DepthOfFieldForm.distance"
+              @keydown="handleNumberKeydown" />
+          </el-form-item>
+          <el-form-item label="工作距离(mm)">
+            <el-input
+              v-model="DepthOfFieldForm.distance"
               style="width: 180px"
               placeholder="输入工作距离"
-              :allow-input="onlyNumber" />
-          </n-form-item>
-          <n-form-item label="焦距(mm)">
-            <n-input
-              v-model:value="DepthOfFieldForm.focalLength"
+              @keydown="handleNumberKeydown" />
+          </el-form-item>
+          <el-form-item label="焦距(mm)">
+            <el-input
+              v-model="DepthOfFieldForm.focalLength"
               style="width: 180px"
               placeholder="输入焦距"
-              :allow-input="onlyNumber" />
-          </n-form-item>
-        </n-form>
-        <n-button
+              @keydown="handleNumberKeydown" />
+          </el-form-item>
+        </el-form>
+        <el-button
           type="primary"
           style="margin-top: 10px"
           @click="calculateDepthOfField">
           计算
-        </n-button>
-        <n-form inline :style="{ width: '100%', marginTop: '20px' }">
-          <n-form-item label="景深(近/远)(mm)">
-            <n-input
+        </el-button>
+        <el-form inline :style="{ width: '100%', marginTop: '20px' }">
+          <el-form-item label="景深(近/远)(mm)">
+            <el-input
               readonly
               style="width: 180px"
               placeholder=""
-              v-model:value="DepthOfFieldForm.depthOfField" />
-          </n-form-item>
-        </n-form>
-      </n-card>
-    </n-space>
-  </n-card>
+              v-model="DepthOfFieldForm.depthOfField" />
+          </el-form-item>
+        </el-form>
+      </el-card>
+    </el-space>
+  </el-card>
 </template>
 
 <style scoped>
@@ -290,32 +318,28 @@ const calculateDepthOfField = () => {
   overflow-y: auto;
 }
 
-.main_card :deep(.n-input__input-el) {
+.main_card :deep(.el-input__inner) {
   border-radius: 0;
   box-shadow: none;
 }
 
-.main_card :deep(.n-input__input-el::selection) {
+.main_card :deep(.el-input__inner::selection) {
   border-radius: 0;
 }
 
-.main_card :deep(.n-card > .n-card__content) {
+.main_card :deep(.el-card__body) {
   padding-bottom: 20px;
 }
 
-.main_card :deep(.n-form-item:last-child .n-form-item-feedback-wrapper) {
-  min-height: 0;
-}
-
-.content_card :deep(.n-card > .n-card__content) {
+.content_card :deep(.el-card__body) {
   padding-bottom: 20px;
 }
 
-.content_card :deep(.n-form-item .n-form-item-feedback-wrapper) {
-  min-height: 0;
+.content_card :deep(.el-form-item) {
+  margin-bottom: 0;
 }
 
-.content_card :deep(.n-form:last-of-type) {
+.content_card :deep(.el-form:last-of-type) {
   margin-bottom: 0;
 }
 

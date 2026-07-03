@@ -9,7 +9,7 @@
 
 <script lang="ts" setup>
 import SettingItem from "../../components/settingitem.vue";
-import { NIcon, type SelectOption } from "naive-ui";
+import { ElButton, ElCard, ElIcon, ElInput, ElSpace } from "element-plus";
 import { h, ref, type Component, onMounted, onUnmounted } from "vue";
 import { BorderlessTableOutlined } from "@vicons/antd";
 import IconFont from "../../components/iconfont.vue";
@@ -27,6 +27,11 @@ import { save as saveFile } from "@tauri-apps/plugin-dialog";
 import { writeTextFile, BaseDirectory } from "@tauri-apps/plugin-fs";
 
 type SettingSelectValue = string | number | null;
+
+type SelectOption = {
+  label: string;
+  value: string | number;
+};
 
 type SettingItem = {
   key: string;
@@ -79,7 +84,7 @@ onUnmounted(() => {
 });
 
 function renderIcon(icon: Component) {
-  return () => h(NIcon, { size: 24 }, { default: () => h(icon) });
+  return () => h(ElIcon, { size: 24 }, { default: () => h(icon) });
 }
 
 function renderIconFont(name: string) {
@@ -205,10 +210,10 @@ async function handleSave() {
 </script>
 
 <template>
-  <n-card class="main_card">
+  <el-card class="main_card">
     <div class="title">UUID 生成器</div>
     <div class="group_title">参数配置</div>
-    <n-space vertical :size="8">
+    <el-space direction="vertical" :size="8" fill>
       <SettingItem
         v-for="item in appearanceItems"
         :key="item.key"
@@ -230,47 +235,47 @@ async function handleSave() {
         :onSelectChange="createSelectHandler(item)"
         :onSwitchChange="createSwitchHandler(item)"
         :onNumberChange="handleNumberChange" />
-    </n-space>
+    </el-space>
 
-    <n-flex justify="space-between" align="center" style="margin-top: 20px">
+    <div class="uuid-toolbar">
       <div>UUID(s)</div>
       <div>
-        <n-button style="margin-right: 10px" @click="handleRefresh">
+        <el-button style="margin-right: 10px" @click="handleRefresh">
           <template #icon>
-            <n-icon>
+            <el-icon>
               <Refresh />
-            </n-icon>
+            </el-icon>
           </template>
           刷新
-        </n-button>
-        <n-button style="margin-right: 10px" @click="handleCopy">
+        </el-button>
+        <el-button style="margin-right: 10px" @click="handleCopy">
           <template #icon>
-            <n-icon>
+            <el-icon>
               <ContentCopyRound />
-            </n-icon>
+            </el-icon>
           </template>
           复制
-        </n-button>
-        <n-button @click="handleSave">
+        </el-button>
+        <el-button @click="handleSave">
           <template #icon>
-            <n-icon>
+            <el-icon>
               <Save20Regular />
-            </n-icon>
+            </el-icon>
           </template>
           保存
-        </n-button>
+        </el-button>
       </div>
-    </n-flex>
+    </div>
     <div style="margin-top: 20px">
-      <n-input
-        :value="uuidText"
+      <el-input
+        v-model="uuidText"
         type="textarea"
         :rows="15"
         readonly
-        :resizable="false"
+        resize="none"
         placeholder="" />
     </div>
-  </n-card>
+  </el-card>
 </template>
 
 <style scoped>
@@ -303,5 +308,12 @@ async function handleSave() {
   display: flex;
   justify-content: start;
   align-items: center;
+}
+
+.uuid-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 20px;
 }
 </style>
