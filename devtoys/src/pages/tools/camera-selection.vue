@@ -78,7 +78,12 @@ const handleNumberKeydown = (event: Event) => {
     return;
   }
 
-  if (event.ctrlKey || event.metaKey || event.altKey || event.key.length !== 1) {
+  if (
+    event.ctrlKey ||
+    event.metaKey ||
+    event.altKey ||
+    event.key.length !== 1
+  ) {
     return;
   }
 
@@ -158,7 +163,11 @@ const calculateDepthOfField = () => {
     <div class="title">相机选型</div>
     <el-space direction="vertical" :size="10" fill>
       <el-card header="计算靶面尺寸">
-        <el-form :model="sensorForm" :style="{ width: '100%' }">
+        <el-form
+          label-position="right"
+          label-width="200px"
+          :model="sensorForm"
+          :style="{ width: '100%' }">
           <el-form-item label="分辨率(长边) x (短边) (pixel)">
             <el-input
               v-model="sensorForm.resolution.length"
@@ -237,7 +246,10 @@ const calculateDepthOfField = () => {
               @keydown="handleNumberKeydown" />
           </el-form-item>
         </el-form>
-        <el-button type="primary" style="margin-top: 10px" @click="calculateFov">
+        <el-button
+          type="primary"
+          style="margin-top: 10px"
+          @click="calculateFov">
           计算
         </el-button>
         <el-form inline :style="{ width: '100%', marginTop: '20px' }">
