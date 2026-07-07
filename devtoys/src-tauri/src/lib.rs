@@ -5,6 +5,9 @@ use chrono::Local;
 mod uuid;
 use uuid::commands::generate_uuid;
 
+mod vision;
+use vision::command::*;
+
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
     let log_plugin = tauri_plugin_log::Builder::new()
