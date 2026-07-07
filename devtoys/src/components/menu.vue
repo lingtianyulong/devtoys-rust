@@ -131,7 +131,7 @@ function handleMenuSelect(key: string) {
       <div v-if="!collapsed" style="width: 100%">
         <el-input
           placeholder="输入以搜索工具"
-          size="medium"
+          size="default"
           type="text"
           clearable>
           <template #suffix>
@@ -143,11 +143,7 @@ function handleMenuSelect(key: string) {
       </div>
       <div v-else>
         <el-tooltip content="输入以搜索工具">
-          <el-button
-            text
-            type="default"
-            size="medium"
-            @click="handleClickSearch">
+          <el-button text type="default" @click="handleClickSearch">
             <template #icon>
               <Search :size="20" />
             </template>

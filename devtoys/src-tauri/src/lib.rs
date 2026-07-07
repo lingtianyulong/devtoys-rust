@@ -43,7 +43,11 @@ pub fn run() {
         )
         .plugin(log_plugin)
         .plugin(tauri_plugin_opener::init())
-        .invoke_handler(tauri::generate_handler![generate_uuid])
+        .invoke_handler(tauri::generate_handler![
+            generate_uuid,
+            get_sensor_size,
+            get_fov
+        ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }

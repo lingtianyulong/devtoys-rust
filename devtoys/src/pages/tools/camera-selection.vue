@@ -8,6 +8,7 @@ import {
   ElSpace,
 } from "element-plus";
 import { ref } from "vue";
+import { invoke } from "@tauri-apps/api/core";
 
 // 分辨率
 type Resolution = {
@@ -109,35 +110,49 @@ const formatTo4Decimals = (num: number) => {
   return str;
 };
 
-const calculateSensorSize = () => {
-  const resolution = sensorForm.value.resolution;
-  const sensorSize = sensorForm.value.sensorSize;
-
-  const lengthValue =
-    (Number(resolution.length) * Number(sensorSize.length)) / 1000.0;
-  const widthValue =
-    (Number(resolution.width) * Number(sensorSize.width)) / 1000.0;
-  console.log("lengthValue", lengthValue);
-  console.log("widthValue", widthValue);
-  sensorForm.value.targetSize = {
-    length: formatTo4Decimals(lengthValue),
-    width: formatTo4Decimals(widthValue),
+const calculateSensorSize = async () => {
+  let params = {
+    resolution: {
+      length: Number(sensorForm.value.resolution.length),
+      width: Number(sensorForm.value.resolution.width),
+    },
+    sensor_size: {
+      length: Number(sensorForm.value.sensorSize.length),
+      width: Number(sensorForm.value.sensorSize.width),
+    },
   };
+
+  const json = JSON.stringify(params);
+  console.log("json", json);
+
+  await invoke<string>("get_sensor_size", { sensorParams: json }).then(
+    (result) => {
+      console.log("result", result);
+      sensorForm.value.targetSize = JSON.parse(result);
+    },
+  );
 };
 
-const calculateFov = () => {
+const calculateFov = async () => {
   const distance = FovForm.value.distance;
   const sensorSize = FovForm.value.sensorSize;
   const focalLength = FovForm.value.focalLength;
 
-  const lenFov =
-    (Number(distance) * Number(sensorSize.length)) / Number(focalLength);
-  const widthFov =
-    (Number(distance) * Number(sensorSize.width)) / Number(focalLength);
-  FovForm.value.fov = {
-    length: formatTo4Decimals(lenFov),
-    width: formatTo4Decimals(widthFov),
+  const params = {
+    distance: Number(distance),
+    sensor_size: {
+      length: Number(sensorSize.length),
+      width: Number(sensorSize.width),
+    },
+    focal_length: Number(focalLength),
   };
+  const json = JSON.stringify(params);
+  console.log("json", json);
+
+  await invoke<string>("get_fov", { fovParams: json }).then((result) => {
+    console.log("result", result);
+    FovForm.value.fov = JSON.parse(result);
+  });
 };
 
 const calculateDepthOfField = () => {
