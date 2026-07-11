@@ -6,6 +6,7 @@ import { ColorPaletteOutline } from "@vicons/ionicons5";
 import { storeToRefs } from "pinia";
 import { useThemeStore } from "../store/theme";
 import { InfoFilled } from "@element-plus/icons-vue";
+import { ref } from "vue";
 
 const themeStore = useThemeStore();
 const { dark } = storeToRefs(themeStore);
@@ -25,6 +26,8 @@ const languageOptions: SelectOption[] = [
     value: "en-US",
   },
 ];
+
+const language = ref("zh-CN");
 
 function handleThemeChange(value: boolean) {
   themeStore.setDark(value);
@@ -47,7 +50,7 @@ function handleThemeChange(value: boolean) {
           <div class="description">更改语言后, 需要重启应用才能生效.</div>
         </div>
         <div class="right">
-          <el-select :options="languageOptions" />
+          <el-select v-model="language" :options="languageOptions" />
         </div>
       </el-card>
       <el-card class="item_card">
@@ -95,8 +98,9 @@ function handleThemeChange(value: boolean) {
   flex-direction: column;
   height: 100vh;
   width: 100%;
-  padding: 20px;
   overflow: hidden;
+  border: none;
+  border-radius: 0;
 }
 
 .item_card {

@@ -214,7 +214,7 @@ async function handleSave() {
   <el-card class="main_card">
     <div class="title">UUID 生成器</div>
     <div class="group_title">参数配置</div>
-    <el-space direction="vertical" :size="8" fill style="width: 95%">
+    <el-space direction="vertical" :size="8" fill style="width: 100%">
       <SettingItem
         v-for="item in appearanceItems"
         :key="item.key"
@@ -268,7 +268,7 @@ async function handleSave() {
         </el-button>
       </div>
     </div>
-    <div style="margin-top: 20px; width: 95%">
+    <div style="margin-top: 20px; width: 100%">
       <el-input
         v-model="uuidText"
         type="textarea"
@@ -286,7 +286,6 @@ async function handleSave() {
   flex-direction: column;
   height: 100vh;
   width: 100%;
-  padding: 20px;
   overflow: hidden;
 }
 
@@ -317,6 +316,6 @@ async function handleSave() {
   align-items: center;
   justify-content: space-between;
   margin-top: 20px;
-  width: 95%;
+  width: 100%;
 }
 </style>

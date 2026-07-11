@@ -32,6 +32,11 @@ const router = createRouter({
           name: "tools-camera-selection",
           component: () => import("../pages/tools/camera-selection.vue"),
         },
+        {
+          path: "/tools/gen_password",
+          name: "tools-gen-password",
+          component: () => import("../pages/tools/gen_password.vue"),
+        },
       ],
     },
   ],

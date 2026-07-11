@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { Search, HomeOutline, EyeSharp } from "@vicons/ionicons5";
 import { Engine24Regular, Camera24Regular } from "@vicons/fluent";
+import { Password } from "@vicons/carbon";
 import { h, ref } from "vue";
 import { ElIcon } from "element-plus";
 import type { Component } from "vue";
@@ -36,6 +37,12 @@ const menuOptions = ref<MenuItemOption[]>([
         key: "uuid-generator",
         path: "/tools/uuid",
         icon: renderIconFont("bd_uuid"),
+      },
+      {
+        label: "密码生成器",
+        key: "password-generator",
+        path: "/tools/gen_password",
+        icon: renderIcon(Password),
       },
     ],
   },

@@ -176,7 +176,7 @@ const calculateDepthOfField = () => {
 <template>
   <el-card class="main_card">
     <div class="title">相机选型</div>
-    <el-space direction="vertical" :size="10" fill>
+    <el-space direction="vertical" :size="10" fill style="width: 100%">
       <el-card header="计算靶面尺寸">
         <el-form
           label-position="right"
@@ -341,7 +341,6 @@ const calculateDepthOfField = () => {
   flex-direction: column;
   height: 100vh;
   width: 100%;
-  padding: 20px;
   overflow-y: auto;
 }
 
